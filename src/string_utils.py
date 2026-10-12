@@ -3,6 +3,13 @@
 import re
 import unicodedata
 
+# Pre-compiled regex patterns for performance
+_NON_WORD_PATTERN = re.compile(r"[^\w\s-]")
+_DELIMITER_PATTERN = re.compile(r"[\s_-]+")
+_CAMEL_TO_SNAKE_1 = re.compile(r"(.)([A-Z][a-z]+)")
+_CAMEL_TO_SNAKE_2 = re.compile(r"([a-z0-9])([A-Z])")
+_HTML_TAGS_PATTERN = re.compile(r"<[^>]+>")
+
 
 def slugify(text: str, delimiter: str = "-") -> str:
     """Convert text into an ASCII URL-safe slug."""
@@ -11,17 +18,17 @@ def slugify(text: str, delimiter: str = "-") -> str:
     # Normalize unicode to ASCII representation
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     # Lowercase and remove non-word characters
-    text = re.sub(r"[^\w\s-]", "", text).strip().lower()
+    text = _NON_WORD_PATTERN.sub("", text).strip().lower()
     # Replace spaces or repeated delimiters with single delimiter
-    return re.sub(r"[\s_-]+", delimiter, text)
+    return _DELIMITER_PATTERN.sub(delimiter, text)
 
 
 def camel_to_snake(text: str) -> str:
     """Convert camelCase or PascalCase string to snake_case."""
     if not text:
         return ""
-    s1 = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", text)
-    return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
+    s1 = _CAMEL_TO_SNAKE_1.sub(r"\1_\2", text)
+    return _CAMEL_TO_SNAKE_2.sub(r"\1_\2", s1).lower()
 
 
 def snake_to_camel(text: str, pascal: bool = False) -> str:
@@ -53,3 +60,10 @@ def mask_sensitive(text: str, visible_chars: int = 4, mask_char: str = "*") -> s
     masked_part = mask_char * (len(text) - visible_chars)
     visible_part = text[-visible_chars:]
     return f"{masked_part}{visible_part}"
+
+
+def strip_html_tags(html: str) -> str:
+    """Remove HTML/XML tags from markup string."""
+    if not html:
+        return ""
+    return _HTML_TAGS_PATTERN.sub("", html).strip()
