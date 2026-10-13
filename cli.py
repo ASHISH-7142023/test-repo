@@ -3,6 +3,7 @@
 
 import sys
 import argparse
+import time
 from src.string_utils import slugify, mask_sensitive
 from src.date_utils import human_readable_duration
 from src.validators import is_valid_email, is_strong_password
@@ -10,6 +11,9 @@ from src.math_utils import percent_change
 from src.encoding_utils import to_base64, from_base64
 from src.crypto_utils import generate_secure_token
 from src.file_utils import get_file_checksum
+from src.uuid_utils import generate_uuid4, short_uuid
+from src.system_utils import get_platform_info, get_disk_usage
+from src.color_utils import colorize, GREEN, CYAN, YELLOW, BOLD
 
 
 def main():
@@ -24,6 +28,10 @@ def main():
     p_mask.add_argument("text", help="Text to mask")
     p_mask.add_argument("--visible", type=int, default=4, help="Number of trailing characters visible")
 
+    # UUID
+    p_uuid = subparsers.add_parser("uuid", help="Generate UUIDv4")
+    p_uuid.add_argument("--short", action="store_true", help="Generate 22-character short UUID")
+
     # Encoding
     p_b64e = subparsers.add_parser("b64-encode", help="Encode text to Base64")
     p_b64e.add_argument("text", help="String to encode")
@@ -37,6 +45,10 @@ def main():
 
     p_hash = subparsers.add_parser("checksum", help="Calculate SHA256 checksum of a file")
     p_hash.add_argument("path", help="Path to file")
+
+    # System Diagnostics
+    subparsers.add_parser("sys-info", help="Print OS and hardware platform details")
+    subparsers.add_parser("disk-usage", help="Print disk space usage summary")
 
     # DateTime & Math
     p_dur = subparsers.add_parser("duration", help="Format seconds to duration")
@@ -63,6 +75,18 @@ def main():
         print(slugify(args.text))
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
+    elif args.command == "uuid":
+        if args.short:
+            print(short_uuid())
+        else:
+            print(generate_uuid4())
+    elif args.command == "sys-info":
+        info = get_platform_info()
+        print(colorize(f"System: {info['system']} {info['release']} ({info['machine']})", CYAN))
+        print(colorize(f"Python: {info['python_version']}", GREEN))
+    elif args.command == "disk-usage":
+        disk = get_disk_usage(".")
+        print(f"Total: {disk['total_formatted']} | Used: {disk['used_formatted']} ({disk['percent_used']}%) | Free: {disk['free_formatted']}")
     elif args.command == "b64-encode":
         print(to_base64(args.text))
     elif args.command == "b64-decode":
@@ -77,14 +101,14 @@ def main():
         print(f"{percent_change(args.initial, args.final)}%")
     elif args.command == "validate-email":
         valid = is_valid_email(args.email)
-        print(f"Valid: {valid}")
+        print(colorize(f"Valid: {valid}", GREEN if valid else YELLOW))
         sys.exit(0 if valid else 1)
     elif args.command == "validate-password":
         valid, issues = is_strong_password(args.password)
         if valid:
-            print("Password satisfies complexity requirements.")
+            print(colorize("Password satisfies complexity requirements.", GREEN))
         else:
-            print("Password issues found:")
+            print(colorize("Password issues found:", YELLOW))
             for issue in issues:
                 print(f" - {issue}")
         sys.exit(0 if valid else 1)
