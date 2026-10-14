@@ -3,7 +3,6 @@
 
 import sys
 import argparse
-import time
 from src.string_utils import slugify, mask_sensitive
 from src.date_utils import human_readable_duration
 from src.validators import is_valid_email, is_strong_password
@@ -14,6 +13,9 @@ from src.file_utils import get_file_checksum
 from src.uuid_utils import generate_uuid4, short_uuid
 from src.system_utils import get_platform_info, get_disk_usage
 from src.color_utils import colorize, GREEN, CYAN, YELLOW, BOLD
+from src.security_utils import hash_password, verify_password
+from src.net_utils import is_valid_ipv4, is_private_ip
+from src.humanize_utils import ordinal, intcomma
 
 
 def main():
@@ -31,6 +33,25 @@ def main():
     # UUID
     p_uuid = subparsers.add_parser("uuid", help="Generate UUIDv4")
     p_uuid.add_argument("--short", action="store_true", help="Generate 22-character short UUID")
+
+    # Security & Password
+    p_hash_pw = subparsers.add_parser("hash-password", help="Hash password using PBKDF2-HMAC-SHA256")
+    p_hash_pw.add_argument("password", help="Password to hash")
+
+    p_verify_pw = subparsers.add_parser("verify-password", help="Verify password against PBKDF2 hash")
+    p_verify_pw.add_argument("password", help="Plain password")
+    p_verify_pw.add_argument("hash", help="Hashed string")
+
+    # Network
+    p_ip = subparsers.add_parser("ip-info", help="Inspect IP address validity and privacy")
+    p_ip.add_argument("ip", help="IP address to check")
+
+    # Humanize
+    p_ord = subparsers.add_parser("ordinal", help="Format integer with ordinal suffix")
+    p_ord.add_argument("number", type=int, help="Integer value")
+
+    p_comma = subparsers.add_parser("intcomma", help="Format number with commas")
+    p_comma.add_argument("number", type=int, help="Integer value")
 
     # Encoding
     p_b64e = subparsers.add_parser("b64-encode", help="Encode text to Base64")
@@ -76,10 +97,21 @@ def main():
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
     elif args.command == "uuid":
-        if args.short:
-            print(short_uuid())
-        else:
-            print(generate_uuid4())
+        print(short_uuid() if args.short else generate_uuid4())
+    elif args.command == "hash-password":
+        print(hash_password(args.password, iterations=10_000))
+    elif args.command == "verify-password":
+        valid = verify_password(args.password, args.hash)
+        print(colorize("Password matches!", GREEN) if valid else colorize("Password invalid!", YELLOW))
+        sys.exit(0 if valid else 1)
+    elif args.command == "ip-info":
+        valid_v4 = is_valid_ipv4(args.ip)
+        private = is_private_ip(args.ip) if valid_v4 else False
+        print(f"Valid IPv4: {valid_v4} | Private Subnet: {private}")
+    elif args.command == "ordinal":
+        print(ordinal(args.number))
+    elif args.command == "intcomma":
+        print(intcomma(args.number))
     elif args.command == "sys-info":
         info = get_platform_info()
         print(colorize(f"System: {info['system']} {info['release']} ({info['machine']})", CYAN))
