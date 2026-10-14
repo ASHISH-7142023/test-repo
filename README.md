@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-64%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-100%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, and resilience.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 30+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, and resilience.
 
 ---
 
@@ -14,6 +14,20 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 | Module | Purpose | Key Functions |
 |---|---|---|
 | **`string_utils.py`** | Text manipulation & formatting | `slugify`, `camel_to_snake`, `mask_sensitive`, `strip_html_tags` |
+| **`security_utils.py`**| PBKDF2-HMAC password hashing | `hash_password`, `verify_password`, `generate_salt` |
+| **`net_utils.py`** | IP and subnet verification | `is_valid_ipv4`, `is_valid_ipv6`, `is_private_ip`, `ip_in_cidr` |
+| **`stats_utils.py`** | Descriptive statistics | `median`, `percentile`, `interquartile_range`, `z_scores` |
+| **`event_bus.py`** | Pub-sub event broker | `EventBus` (`subscribe`, `publish`, `unsubscribe`, `clear`) |
+| **`async_utils.py`** | Async concurrency control | `gather_with_concurrency`, `batch_process` |
+| **`diff_utils.py`** | Object and text unified diffs | `diff_dicts`, `unified_diff_text` |
+| **`humanize_utils.py`**| Natural formatting | `ordinal`, `intcomma`, `natural_list` |
+| **`geo_utils.py`** | Coordinates & Haversine distance | `haversine_distance_km`, `calculate_bearing`, `is_valid_coordinates` |
+| **`regex_patterns.py`**| Pattern entity extractors | `extract_emails`, `extract_urls`, `extract_hashtags`, `extract_mentions` |
+| **`serializer_utils.py`**| Enhanced JSON encoder | `DevToolkitJSONEncoder`, `to_json`, `from_json` |
+| **`logger_utils.py`** | Structured & color logger | `DevLogger` (`debug`, `info`, `warn`, `error`) |
+| **`decorator_utils.py`**| Functional decorators | `memoize`, `deprecated`, `once` |
+| **`config_utils.py`** | INI & Key-Value parsers | `parse_ini_string`, `parse_key_value_string`, `serialize_ini` |
+| **`type_defs.py`** | Typing protocols & aliases | `JSONType`, `Number`, `Serializable`, `Deserializable` |
 | **`date_utils.py`** | Timestamp formatting & intervals | `format_iso`, `human_readable_duration`, `days_between`, `is_leap_year` |
 | **`file_utils.py`** | Atomic I/O & file hashing | `atomic_write_text`, `safe_read_json`, `get_file_checksum` |
 | **`env_utils.py`** | Environment variable coercion | `get_env_str`, `get_env_bool`, `get_env_int`, `get_env_list`, `require_env` |
@@ -41,6 +55,17 @@ DevToolkit includes an interactive command-line interface:
 # Generate a clean URL slug
 python cli.py slug "Building Scalable Architecture in 2026"
 
+# Hash and verify passwords with PBKDF2
+python cli.py hash-password "MySecretPassword"
+python cli.py verify-password "MySecretPassword" "$pbkdf2-sha256$10000$..."
+
+# Format numbers with ordinals and commas
+python cli.py ordinal 42
+python cli.py intcomma 1000000
+
+# Inspect IP address status
+python cli.py ip-info "192.168.1.1"
+
 # Generate canonical or short 22-char UUID
 python cli.py uuid
 python cli.py uuid --short
@@ -48,26 +73,13 @@ python cli.py uuid --short
 # System diagnostics and disk space
 python cli.py sys-info
 python cli.py disk-usage
-
-# Generate cryptographically secure token
-python cli.py token --bytes 32
-
-# Encode and decode Base64
-python cli.py b64-encode "Hello World"
-python cli.py b64-decode "SGVsbG8gV29ybGQ="
-
-# Calculate SHA256 file checksum
-python cli.py checksum README.md
-
-# Format seconds into duration
-python cli.py duration 86450
 ```
 
 ---
 
 ## 🧪 Running the Automated Test Suite
 
-DevToolkit comes with a comprehensive suite of 64 unit tests:
+DevToolkit comes with a comprehensive suite of 100+ unit tests:
 
 ```bash
 python -m unittest discover tests -v
