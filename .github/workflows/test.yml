@@ -32,4 +32,5 @@ jobs:
         run: |
           python cli.py --help
           python cli.py uuid
+          python cli.py ordinal 42
           python cli.py slug "Continuous Integration Test 2026"
