@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-100%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-150%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 30+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, and resilience.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 45+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, and algorithms.
 
 ---
 
@@ -14,6 +14,22 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 | Module | Purpose | Key Functions |
 |---|---|---|
 | **`string_utils.py`** | Text manipulation & formatting | `slugify`, `camel_to_snake`, `mask_sensitive`, `strip_html_tags` |
+| **`pagination_utils.py`**| Slicing and cursor pagination | `paginate_list`, `cursor_paginate`, `Page` |
+| **`jwt_utils.py`** | HS256 JSON Web Tokens | `encode_jwt`, `decode_jwt` |
+| **`query_utils.py`** | URL query parameters | `parse_query_params`, `build_query_string`, `filter_query_params` |
+| **`tree_utils.py`** | Hierarchical data & traversal | `TreeNode`, `dfs_traverse`, `bfs_traverse`, `find_node` |
+| **`semver_utils.py`** | Semantic versioning 2.0.0 | `parse_semver`, `compare_semver`, `bump_semver` |
+| **`table_utils.py`** | ASCII and Markdown tables | `format_ascii_table`, `format_markdown_table` |
+| **`matrix_utils.py`** | 2D matrix transformations | `transpose`, `rotate_90_clockwise`, `matrix_multiply` |
+| **`random_utils.py`** | Weighted random sampling | `weighted_choice`, `random_alphanumeric`, `roll_dice` |
+| **`cron_utils.py`** | Cron expression parser | `parse_cron_field`, `matches_cron` |
+| **`currency_utils.py`**| Multi-currency formatting | `format_currency`, `is_valid_currency_code` |
+| **`bloom_filter.py`** | Probabilistic membership | `BloomFilter` (`add`, `contains`) |
+| **`circuit_breaker.py`**| Fault tolerance & trips | `CircuitBreaker` (`CLOSED`, `OPEN`, `HALF_OPEN`) |
+| **`fsm_utils.py`** | Finite state machine | `StateMachine` (`add_transition`, `trigger`) |
+| **`slug_enhancements.py`**| Stop-word slugifier | `advanced_slugify` |
+| **`template_utils.py`**| Mustache template engine | `render_template` |
+| **`priority_queue.py`**| Thread-safe min/max heap | `PriorityQueue` (`push`, `pop`, `peek`) |
 | **`security_utils.py`**| PBKDF2-HMAC password hashing | `hash_password`, `verify_password`, `generate_salt` |
 | **`net_utils.py`** | IP and subnet verification | `is_valid_ipv4`, `is_valid_ipv6`, `is_private_ip`, `ip_in_cidr` |
 | **`stats_utils.py`** | Descriptive statistics | `median`, `percentile`, `interquartile_range`, `z_scores` |
@@ -55,6 +71,12 @@ DevToolkit includes an interactive command-line interface:
 # Generate a clean URL slug
 python cli.py slug "Building Scalable Architecture in 2026"
 
+# Bump semantic versions
+python cli.py semver-bump 1.2.3 --type minor
+
+# Format currencies
+python cli.py currency 1500 --code USD
+
 # Hash and verify passwords with PBKDF2
 python cli.py hash-password "MySecretPassword"
 python cli.py verify-password "MySecretPassword" "$pbkdf2-sha256$10000$..."
@@ -79,7 +101,7 @@ python cli.py disk-usage
 
 ## 🧪 Running the Automated Test Suite
 
-DevToolkit comes with a comprehensive suite of 100+ unit tests:
+DevToolkit comes with a comprehensive suite of 150+ unit tests:
 
 ```bash
 python -m unittest discover tests -v
