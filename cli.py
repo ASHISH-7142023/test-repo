@@ -16,6 +16,8 @@ from src.color_utils import colorize, GREEN, CYAN, YELLOW, BOLD
 from src.security_utils import hash_password, verify_password
 from src.net_utils import is_valid_ipv4, is_private_ip
 from src.humanize_utils import ordinal, intcomma
+from src.semver_utils import parse_semver, bump_semver
+from src.currency_utils import format_currency
 
 
 def main():
@@ -29,6 +31,16 @@ def main():
     p_mask = subparsers.add_parser("mask", help="Mask sensitive token or number")
     p_mask.add_argument("text", help="Text to mask")
     p_mask.add_argument("--visible", type=int, default=4, help="Number of trailing characters visible")
+
+    # SemVer
+    p_semver = subparsers.add_parser("semver-bump", help="Bump semantic version")
+    p_semver.add_argument("version", help="Current version string")
+    p_semver.add_argument("--type", choices=["major", "minor", "patch"], default="patch")
+
+    # Currency
+    p_curr = subparsers.add_parser("currency", help="Format currency amount")
+    p_curr.add_argument("amount", type=float, help="Numeric value")
+    p_curr.add_argument("--code", default="USD", help="Currency code (USD, EUR, INR)")
 
     # UUID
     p_uuid = subparsers.add_parser("uuid", help="Generate UUIDv4")
@@ -96,6 +108,10 @@ def main():
         print(slugify(args.text))
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
+    elif args.command == "semver-bump":
+        print(bump_semver(args.version, args.type))
+    elif args.command == "currency":
+        print(format_currency(args.amount, args.code))
     elif args.command == "uuid":
         print(short_uuid() if args.short else generate_uuid4())
     elif args.command == "hash-password":
