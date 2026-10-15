@@ -32,5 +32,7 @@ jobs:
         run: |
           python cli.py --help
           python cli.py uuid
+          python cli.py semver-bump 1.0.0 --type minor
+          python cli.py currency 1250 --code USD
           python cli.py ordinal 42
           python cli.py slug "Continuous Integration Test 2026"
