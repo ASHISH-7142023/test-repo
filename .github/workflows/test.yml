@@ -32,6 +32,8 @@ jobs:
         run: |
           python cli.py --help
           python cli.py uuid
+          python cli.py luhn-check 49927398716
+          python cli.py contrast "#ffffff" "#000000"
           python cli.py semver-bump 1.0.0 --type minor
           python cli.py currency 1250 --code USD
           python cli.py ordinal 42
