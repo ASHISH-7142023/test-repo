@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-150%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-190%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 45+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, and algorithms.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 60+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, and data structures.
 
 ---
 
@@ -14,6 +14,19 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 | Module | Purpose | Key Functions |
 |---|---|---|
 | **`string_utils.py`** | Text manipulation & formatting | `slugify`, `camel_to_snake`, `mask_sensitive`, `strip_html_tags` |
+| **`hash_ring.py`** | Consistent hashing & sharding | `HashRing` (`add_node`, `remove_node`, `get_node`) |
+| **`stopwatch.py`** | Multi-lap split timing | `SplitStopwatch` (`start`, `lap`, `stop`, `summary`) |
+| **`bit_utils.py`** | Bitwise manipulation | `count_set_bits`, `is_power_of_two`, `get_bit`, `set_bit` |
+| **`trie_utils.py`** | Prefix tree autocomplete | `Trie` (`insert`, `search`, `autocomplete`) |
+| **`disjoint_set.py`** | Union-Find DSU | `DisjointSet` (`find`, `union`, `connected`) |
+| **`graph_utils.py`** | Graph topological sort & BFS | `Graph` (`add_edge`, `topological_sort`, `shortest_path_bfs`) |
+| **`levenshtein_utils.py`**| Edit distance & fuzzy matching | `levenshtein_distance`, `similarity_ratio`, `find_closest_match` |
+| **`binary_search_utils.py`**| Binary search & bounds | `binary_search`, `search_range` |
+| **`luhn_utils.py`** | Luhn algorithm validation | `validate_luhn`, `calculate_luhn_digit` |
+| **`color_contrast.py`** | WCAG AA/AAA accessibility | `contrast_ratio`, `is_wcag_aa`, `is_wcag_aaa` |
+| **`url_builder.py`** | Fluent URL chaining | `URLBuilder` (`set_host`, `add_path`, `add_param`) |
+| **`top_k_stream.py`** | Streaming Top-K items | `TopKStream` (`add`, `get_top_k`) |
+| **`markdown_builder.py`**| Fluent Markdown document builder | `MarkdownBuilder` (`header`, `bullet_list`, `code_block`) |
 | **`pagination_utils.py`**| Slicing and cursor pagination | `paginate_list`, `cursor_paginate`, `Page` |
 | **`jwt_utils.py`** | HS256 JSON Web Tokens | `encode_jwt`, `decode_jwt` |
 | **`query_utils.py`** | URL query parameters | `parse_query_params`, `build_query_string`, `filter_query_params` |
@@ -68,6 +81,12 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 DevToolkit includes an interactive command-line interface:
 
 ```bash
+# Verify card numbers with Luhn algorithm
+python cli.py luhn-check 49927398716
+
+# Check WCAG AA color accessibility contrast
+python cli.py contrast "#ffffff" "#000000"
+
 # Generate a clean URL slug
 python cli.py slug "Building Scalable Architecture in 2026"
 
@@ -101,7 +120,7 @@ python cli.py disk-usage
 
 ## 🧪 Running the Automated Test Suite
 
-DevToolkit comes with a comprehensive suite of 150+ unit tests:
+DevToolkit comes with a comprehensive suite of 190+ unit tests:
 
 ```bash
 python -m unittest discover tests -v
