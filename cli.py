@@ -16,8 +16,10 @@ from src.color_utils import colorize, GREEN, CYAN, YELLOW, BOLD
 from src.security_utils import hash_password, verify_password
 from src.net_utils import is_valid_ipv4, is_private_ip
 from src.humanize_utils import ordinal, intcomma
-from src.semver_utils import parse_semver, bump_semver
+from src.semver_utils import bump_semver
 from src.currency_utils import format_currency
+from src.luhn_utils import validate_luhn
+from src.color_contrast import contrast_ratio, is_wcag_aa
 
 
 def main():
@@ -31,6 +33,15 @@ def main():
     p_mask = subparsers.add_parser("mask", help="Mask sensitive token or number")
     p_mask.add_argument("text", help="Text to mask")
     p_mask.add_argument("--visible", type=int, default=4, help="Number of trailing characters visible")
+
+    # Luhn
+    p_luhn = subparsers.add_parser("luhn-check", help="Verify card number with Luhn algorithm")
+    p_luhn.add_argument("number", help="Credit card or account number")
+
+    # Contrast
+    p_contrast = subparsers.add_parser("contrast", help="Compute WCAG color contrast ratio")
+    p_contrast.add_argument("fg", help="Foreground hex color (#fff)")
+    p_contrast.add_argument("bg", help="Background hex color (#000)")
 
     # SemVer
     p_semver = subparsers.add_parser("semver-bump", help="Bump semantic version")
@@ -108,6 +119,14 @@ def main():
         print(slugify(args.text))
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
+    elif args.command == "luhn-check":
+        valid = validate_luhn(args.number)
+        print(colorize(f"Luhn Valid: {valid}", GREEN if valid else YELLOW))
+        sys.exit(0 if valid else 1)
+    elif args.command == "contrast":
+        ratio = contrast_ratio(args.fg, args.bg)
+        aa = is_wcag_aa(args.fg, args.bg)
+        print(f"Contrast Ratio: {ratio}:1 | WCAG AA: {aa}")
     elif args.command == "semver-bump":
         print(bump_semver(args.version, args.type))
     elif args.command == "currency":
