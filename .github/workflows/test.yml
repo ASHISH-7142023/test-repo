@@ -38,3 +38,7 @@ jobs:
           python cli.py currency 1250 --code USD
           python cli.py ordinal 42
           python cli.py slug "Continuous Integration Test 2026"
+          python cli.py guess-mime "style.css"
+          python cli.py b58-encode "Hello World!"
+          python cli.py soundex "Robert"
+          python cli.py soundex-match "Robert" "Rupert"
