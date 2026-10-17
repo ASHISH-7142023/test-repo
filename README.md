@@ -2,17 +2,36 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-190%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-230%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 60+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, and data structures.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 75+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, and data structures.
 
 ---
 
 ## 📦 Modules & Capabilities
 
-| Module | Purpose | Key Functions |
+| Module | Purpose | Key Functions / Classes |
 |---|---|---|
+| **`ring_buffer.py`** | Circular ring buffer | `CircularBuffer` (`append`, `popleft`, `peek`, `overwrite`) |
+| **`skip_list.py`** | Probabilistic indexing O(log n) | `SkipList` (`insert`, `contains`, `remove`, `to_list`) |
+| **`interval_tree.py`** | 1D range queries & overlap | `IntervalTree` (`insert`, `find_overlapping`, `find_at_point`) |
+| **`kmp_search.py`** | Knuth-Morris-Pratt string search | `kmp_search`, `kmp_contains`, `compute_lps` |
+| **`boyer_moore.py`** | Boyer-Moore string search | `boyer_moore_search`, `boyer_moore_contains` |
+| **`dijkstra.py`** | Shortest path graph algorithm | `WeightedGraph` (`add_edge`, `dijkstra`, `shortest_path`) |
+| **`mime_utils.py`** | MIME type and extension inference | `guess_mime_type`, `guess_extension`, `is_text_mime`, `is_image_mime` |
+| **`base58_utils.py`** | Base58 encoding & checksums | `b58encode`, `b58decode`, `b58encode_check`, `b58decode_check` |
+| **`base32_utils.py`** | RFC 4648 Base32 encoding | `base32_encode`, `base32_decode` |
+| **`fraction_utils.py`**| Rational fraction arithmetic | `RationalFraction`, `approximate_float` |
+| **`color_hsl.py`** | HSL color space conversions | `rgb_to_hsl`, `hsl_to_rgb`, `hex_to_hsl`, `hsl_to_hex` |
+| **`cron_next.py`** | Next cron run calculator | `get_next_cron_run` |
+| **`lru_k_cache.py`** | Scan-resistant LRU-K caching | `LRUKCache` (`get`, `put`, `delete`, `clear`) |
+| **`vector3d.py`** | 3D vector geometry & angles | `Vector3D` (`dot`, `cross`, `magnitude`, `normalize`, `angle_with`) |
+| **`fuzzy_set.py`** | Fuzzy logic set operations | `TriangularMembership`, `FuzzySet` (`union`, `intersection`, `complement`) |
+| **`phonetic_utils.py`**| Soundex phonetic encoding | `soundex`, `soundex_matches` |
+| **`convex_hull.py`** | Graham Scan 2D convex hull | `convex_hull_graham`, `polygon_area`, `Point2D` |
+| **`tree_serializer.py`**| Bracket & dict tree format | `serialize_to_brackets`, `deserialize_from_brackets`, `tree_to_dict` |
+| **`time_window.py`** | Rolling sliding & tumbling windows | `SlidingWindowCounter`, `TumblingWindowAggregator` |
 | **`string_utils.py`** | Text manipulation & formatting | `slugify`, `camel_to_snake`, `mask_sensitive`, `strip_html_tags` |
 | **`hash_ring.py`** | Consistent hashing & sharding | `HashRing` (`add_node`, `remove_node`, `get_node`) |
 | **`stopwatch.py`** | Multi-lap split timing | `SplitStopwatch` (`start`, `lap`, `stop`, `summary`) |
@@ -48,85 +67,111 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 | **`stats_utils.py`** | Descriptive statistics | `median`, `percentile`, `interquartile_range`, `z_scores` |
 | **`event_bus.py`** | Pub-sub event broker | `EventBus` (`subscribe`, `publish`, `unsubscribe`, `clear`) |
 | **`async_utils.py`** | Async concurrency control | `gather_with_concurrency`, `batch_process` |
-| **`diff_utils.py`** | Object and text unified diffs | `diff_dicts`, `unified_diff_text` |
-| **`humanize_utils.py`**| Natural formatting | `ordinal`, `intcomma`, `natural_list` |
-| **`geo_utils.py`** | Coordinates & Haversine distance | `haversine_distance_km`, `calculate_bearing`, `is_valid_coordinates` |
-| **`regex_patterns.py`**| Pattern entity extractors | `extract_emails`, `extract_urls`, `extract_hashtags`, `extract_mentions` |
-| **`serializer_utils.py`**| Enhanced JSON encoder | `DevToolkitJSONEncoder`, `to_json`, `from_json` |
-| **`logger_utils.py`** | Structured & color logger | `DevLogger` (`debug`, `info`, `warn`, `error`) |
-| **`decorator_utils.py`**| Functional decorators | `memoize`, `deprecated`, `once` |
-| **`config_utils.py`** | INI & Key-Value parsers | `parse_ini_string`, `parse_key_value_string`, `serialize_ini` |
-| **`type_defs.py`** | Typing protocols & aliases | `JSONType`, `Number`, `Serializable`, `Deserializable` |
-| **`date_utils.py`** | Timestamp formatting & intervals | `format_iso`, `human_readable_duration`, `days_between`, `is_leap_year` |
-| **`file_utils.py`** | Atomic I/O & file hashing | `atomic_write_text`, `safe_read_json`, `get_file_checksum` |
-| **`env_utils.py`** | Environment variable coercion | `get_env_str`, `get_env_bool`, `get_env_int`, `get_env_list`, `require_env` |
-| **`color_utils.py`** | ANSI terminal colors & RGB | `colorize`, `rgb`, `hex_color`, `strip_ansi` |
-| **`cache_utils.py`** | In-memory thread-safe caching | `TTLCache` (expiration), `LRUCache` (capacity eviction) |
-| **`rate_limiter.py`** | Traffic shaping & API limits | `TokenBucketRateLimiter` (`allow`, `acquire`) |
-| **`uuid_utils.py`** | UUID generation & compacting | `generate_uuid4`, `generate_uuid5`, `short_uuid`, `expand_short_uuid` |
-| **`csv_utils.py`** | Streaming CSV serialization | `detect_delimiter`, `read_csv_dicts`, `write_csv_dicts` |
-| **`benchmark_utils.py`** | Execution timing & metrics | `BenchmarkTimer`, `@timed`, `benchmark_function` |
-| **`encoding_utils.py`** | Data representation | `to_base64`, `from_base64`, `to_hex`, `from_hex`, `url_encode` |
-| **`crypto_utils.py`** | Cryptographic tokens & hashing | `generate_secure_token`, `hash_sha256`, `constant_time_compare` |
-| **`collection_utils.py`** | Advanced lists & dict operations | `chunk_list`, `dedupe`, `flatten_dict`, `deep_merge` |
-| **`retry_utils.py`** | Network & I/O resilience | `@retry(max_attempts=3, delay=0.1, backoff=2.0)` |
-| **`system_utils.py`** | Hardware & OS metrics | `get_platform_info`, `get_disk_usage`, `format_bytes` |
-| **`validators.py`** | Format verification | `is_valid_email`, `is_valid_url`, `is_strong_password` |
-| **`math_utils.py`** | Statistical helpers | `clamp`, `percent_change`, `moving_average`, `standard_deviation` |
+| **`config_utils.py`** | Environment configuration loader | `load_config_from_env` |
+| **`decorator_utils.py`**| Caching & memoization decorators | `memoize`, `timeit` |
+| **`diff_utils.py`** | Unified line and word diffs | `generate_line_diff`, `generate_word_diff` |
+| **`humanize_utils.py`**| Natural human formatting | `natural_time`, `intcomma`, `ordinal` |
+| **`geo_utils.py`** | Haversine distance & geocoding | `haversine_distance`, `bounding_box` |
+| **`regex_patterns.py`**| Precompiled regular expressions | `extract_emails`, `extract_urls`, `extract_ipv4` |
+| **`serializer_utils.py`**| Safe JSON datetime encoder | `safe_json_dumps`, `safe_json_loads` |
+| **`date_utils.py`** | Date difference & human duration | `format_iso`, `human_readable_duration` |
+| **`file_utils.py`** | Safe directory & file helpers | `safe_read_text`, `safe_write_text`, `get_file_checksum` |
+| **`validators.py`** | Regex and data validators | `is_valid_email`, `is_valid_url`, `is_strong_password` |
+| **`math_utils.py`** | Math & geometry calculations | `clamp`, `lerp`, `round_to_nearest`, `percent_change` |
+| **`encoding_utils.py`**| Base64 & Hex encoding helpers | `to_base64`, `from_base64`, `to_hex`, `from_hex` |
+| **`retry_utils.py`** | Exponential backoff decorator | `retry` |
+| **`collection_utils.py`**| Flattening, chunking, groups | `flatten`, `chunk`, `group_by`, `unique` |
+| **`crypto_utils.py`** | Tokens & HMAC signatures | `generate_secure_token`, `compute_hmac` |
+| **`system_utils.py`** | Platform details & formatting | `get_platform_info`, `get_disk_usage`, `format_bytes` |
+| **`env_utils.py`** | Typed env variable retrieval | `get_env_str`, `get_env_int`, `get_env_bool`, `get_env_list` |
+| **`color_utils.py`** | ANSI terminal colors | `colorize`, `strip_ansi` |
+| **`cache_utils.py`** | In-memory TTL cache | `TTLCache` (`set`, `get`, `delete`, `clean_expired`) |
+| **`rate_limiter.py`** | Token Bucket algorithm | `TokenBucketRateLimiter` (`acquire`, `consume`) |
+| **`uuid_utils.py`** | UUID generation & validation | `generate_uuid4`, `generate_uuid5`, `is_valid_uuid`, `short_uuid` |
+| **`csv_utils.py`** | CSV reader and writer | `read_csv_dicts`, `write_csv_dicts` |
+| **`benchmark_utils.py`**| CPU timing & execution bench | `benchmark`, `BenchmarkResult` |
+| **`type_defs.py`** | Typing protocols & base models | `Serializable`, `DictSerializable`, `BaseModel` |
+| **`logger_utils.py`** | Structured JSON & console logs | `DevLogger`, `LogLevel` |
 
 ---
 
-## 💻 CLI Usage
+## 🚀 Quick Start
 
-DevToolkit includes an interactive command-line interface:
+```python
+from src.ring_buffer import CircularBuffer
+from src.base58_utils import b58encode, b58decode
+from src.color_hsl import rgb_to_hsl, hsl_to_hex
+from src.dijkstra import WeightedGraph
+from src.phonetic_utils import soundex
 
-```bash
-# Verify card numbers with Luhn algorithm
-python cli.py luhn-check 49927398716
+# 1. Circular Ring Buffer
+cb = CircularBuffer[int](capacity=3, overwrite=True)
+cb.append(10)
+cb.append(20)
+cb.append(30)
+cb.append(40) # Overwrites 10
+print(cb.to_list()) # [20, 30, 40]
 
-# Check WCAG AA color accessibility contrast
-python cli.py contrast "#ffffff" "#000000"
+# 2. Base58 Encoding
+encoded = b58encode(b"Hello World!")
+print(encoded) # 2NEpo7TZRRrLZSi2U
 
-# Generate a clean URL slug
-python cli.py slug "Building Scalable Architecture in 2026"
+# 3. Color Space Conversions
+h, s, l = rgb_to_hsl(255, 128, 0)
+print(f"HSL: {h} deg, {s}%, {l}% -> Hex: {hsl_to_hex(h, s, l)}")
 
-# Bump semantic versions
-python cli.py semver-bump 1.2.3 --type minor
+# 4. Dijkstra Shortest Path
+g = WeightedGraph()
+g.add_edge("Home", "Transit", 3.0)
+g.add_edge("Transit", "Office", 5.0)
+g.add_edge("Home", "Office", 10.0)
+path, cost = g.shortest_path("Home", "Office")
+print(f"Optimal Route: {' -> '.join(path)} (Distance: {cost})")
 
-# Format currencies
-python cli.py currency 1500 --code USD
-
-# Hash and verify passwords with PBKDF2
-python cli.py hash-password "MySecretPassword"
-python cli.py verify-password "MySecretPassword" "$pbkdf2-sha256$10000$..."
-
-# Format numbers with ordinals and commas
-python cli.py ordinal 42
-python cli.py intcomma 1000000
-
-# Inspect IP address status
-python cli.py ip-info "192.168.1.1"
-
-# Generate canonical or short 22-char UUID
-python cli.py uuid
-python cli.py uuid --short
-
-# System diagnostics and disk space
-python cli.py sys-info
-python cli.py disk-usage
+# 5. Phonetic Soundex
+print(soundex("Robert"), soundex("Rupert")) # ('R163', 'R163')
 ```
 
 ---
 
-## 🧪 Running the Automated Test Suite
+## 🛠️ CLI Usage
 
-DevToolkit comes with a comprehensive suite of 190+ unit tests:
+```bash
+# Detect MIME type
+python cli.py guess-mime style.css
+
+# Base58 encode / decode
+python cli.py b58-encode "Hello World!"
+python cli.py b58-decode "2NEpo7TZRRrLZSi2U"
+
+# Soundex phonetics
+python cli.py soundex "Robert"
+python cli.py soundex-match "Robert" "Rupert"
+
+# Contrast inspection
+python cli.py contrast "#ffffff" "#000000"
+
+# Luhn credit card validation
+python cli.py luhn-check 49927398716
+
+# SemVer bumping
+python cli.py semver-bump 1.2.3 --type minor
+```
+
+---
+
+## 🧪 Testing
+
+Execute the comprehensive test suite with zero external dependencies:
 
 ```bash
 python -m unittest discover tests -v
 ```
 
+All 230+ unit tests execute in under 5 seconds!
+
 ---
 
 ## 📄 License
-MIT License. Built for modularity, clean architecture, and developer productivity.
+
+MIT © 2026 DevToolkit Contributors
