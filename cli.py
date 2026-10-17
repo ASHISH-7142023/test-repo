@@ -20,6 +20,9 @@ from src.semver_utils import bump_semver
 from src.currency_utils import format_currency
 from src.luhn_utils import validate_luhn
 from src.color_contrast import contrast_ratio, is_wcag_aa
+from src.mime_utils import guess_mime_type
+from src.base58_utils import b58encode, b58decode
+from src.phonetic_utils import soundex, soundex_matches
 
 
 def main():
@@ -33,6 +36,25 @@ def main():
     p_mask = subparsers.add_parser("mask", help="Mask sensitive token or number")
     p_mask.add_argument("text", help="Text to mask")
     p_mask.add_argument("--visible", type=int, default=4, help="Number of trailing characters visible")
+
+    # MIME
+    p_mime = subparsers.add_parser("guess-mime", help="Detect MIME type from file extension")
+    p_mime.add_argument("path", help="Filename or extension")
+
+    # Base58
+    p_b58e = subparsers.add_parser("b58-encode", help="Encode text to Base58")
+    p_b58e.add_argument("text", help="Text to encode")
+
+    p_b58d = subparsers.add_parser("b58-decode", help="Decode Base58 string")
+    p_b58d.add_argument("encoded", help="Base58 string")
+
+    # Phonetics
+    p_snd = subparsers.add_parser("soundex", help="Compute Soundex phonetic code")
+    p_snd.add_argument("word", help="English name or word")
+
+    p_sndm = subparsers.add_parser("soundex-match", help="Check if two names match in Soundex")
+    p_sndm.add_argument("w1", help="First word")
+    p_sndm.add_argument("w2", help="Second word")
 
     # Luhn
     p_luhn = subparsers.add_parser("luhn-check", help="Verify card number with Luhn algorithm")
@@ -119,6 +141,18 @@ def main():
         print(slugify(args.text))
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
+    elif args.command == "guess-mime":
+        print(guess_mime_type(args.path))
+    elif args.command == "b58-encode":
+        print(b58encode(args.text))
+    elif args.command == "b58-decode":
+        print(b58decode(args.encoded).decode("utf-8", errors="replace"))
+    elif args.command == "soundex":
+        print(soundex(args.word))
+    elif args.command == "soundex-match":
+        matches = soundex_matches(args.w1, args.w2)
+        print(colorize(f"Soundex Match: {matches}", GREEN if matches else YELLOW))
+        sys.exit(0 if matches else 1)
     elif args.command == "luhn-check":
         valid = validate_luhn(args.number)
         print(colorize(f"Luhn Valid: {valid}", GREEN if valid else YELLOW))
