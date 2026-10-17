@@ -1,4 +1,4 @@
-"""Integration tests for Luhn and contrast CLI commands."""
+"""Integration tests for extended CLI commands."""
 
 import subprocess
 import sys
@@ -21,6 +21,29 @@ class TestCLICommandsV2(unittest.TestCase):
         code, out, _ = self.run_cli("contrast", "#ffffff", "#000000")
         self.assertEqual(code, 0)
         self.assertIn("Contrast Ratio: 21.0:1", out)
+
+    def test_cli_guess_mime(self):
+        code, out, _ = self.run_cli("guess-mime", "style.css")
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "text/css")
+
+    def test_cli_base58_roundtrip(self):
+        code, out, _ = self.run_cli("b58-encode", "Hello World!")
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "2NEpo7TZRRrLZSi2U")
+
+        code2, out2, _ = self.run_cli("b58-decode", "2NEpo7TZRRrLZSi2U")
+        self.assertEqual(code2, 0)
+        self.assertEqual(out2, "Hello World!")
+
+    def test_cli_soundex(self):
+        code, out, _ = self.run_cli("soundex", "Robert")
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "R163")
+
+        code2, out2, _ = self.run_cli("soundex-match", "Robert", "Rupert")
+        self.assertEqual(code2, 0)
+        self.assertIn("Soundex Match: True", out2)
 
 
 if __name__ == "__main__":
