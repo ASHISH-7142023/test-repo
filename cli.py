@@ -23,6 +23,10 @@ from src.color_contrast import contrast_ratio, is_wcag_aa
 from src.mime_utils import guess_mime_type
 from src.base58_utils import b58encode, b58decode
 from src.phonetic_utils import soundex, soundex_matches
+from src.morse_code import text_to_morse, morse_to_text
+from src.roman_numerals import to_roman, from_roman
+from src.units_converter import convert_length, convert_weight, convert_temperature, convert_bytes
+from src.color_cmyk import rgb_to_cmyk
 
 
 def main():
@@ -36,6 +40,32 @@ def main():
     p_mask = subparsers.add_parser("mask", help="Mask sensitive token or number")
     p_mask.add_argument("text", help="Text to mask")
     p_mask.add_argument("--visible", type=int, default=4, help="Number of trailing characters visible")
+
+    # Morse
+    p_me = subparsers.add_parser("morse-encode", help="Encode text to Morse code")
+    p_me.add_argument("text", help="Text to encode")
+
+    p_md = subparsers.add_parser("morse-decode", help="Decode Morse code to text")
+    p_md.add_argument("morse", help="Morse code with spaces between letters and / between words")
+
+    # Roman
+    p_tr = subparsers.add_parser("to-roman", help="Convert integer to Roman numeral")
+    p_tr.add_argument("number", type=int, help="Integer (1-3999)")
+
+    p_fr = subparsers.add_parser("from-roman", help="Convert Roman numeral to integer")
+    p_fr.add_argument("roman", help="Roman numeral string")
+
+    # Units
+    p_uc = subparsers.add_parser("convert-units", help="Convert length units (m, km, mi, ft, etc.)")
+    p_uc.add_argument("val", type=float, help="Value to convert")
+    p_uc.add_argument("from_unit", help="Source unit")
+    p_uc.add_argument("to_unit", help="Target unit")
+
+    # CMYK
+    p_cmyk = subparsers.add_parser("rgb-to-cmyk", help="Convert RGB to CMYK percentages")
+    p_cmyk.add_argument("r", type=int, help="Red (0-255)")
+    p_cmyk.add_argument("g", type=int, help="Green (0-255)")
+    p_cmyk.add_argument("b", type=int, help="Blue (0-255)")
 
     # MIME
     p_mime = subparsers.add_parser("guess-mime", help="Detect MIME type from file extension")
@@ -141,6 +171,19 @@ def main():
         print(slugify(args.text))
     elif args.command == "mask":
         print(mask_sensitive(args.text, visible_chars=args.visible))
+    elif args.command == "morse-encode":
+        print(text_to_morse(args.text))
+    elif args.command == "morse-decode":
+        print(morse_to_text(args.morse))
+    elif args.command == "to-roman":
+        print(to_roman(args.number))
+    elif args.command == "from-roman":
+        print(from_roman(args.roman))
+    elif args.command == "convert-units":
+        print(convert_length(args.val, args.from_unit, args.to_unit))
+    elif args.command == "rgb-to-cmyk":
+        c, m, y, k = rgb_to_cmyk(args.r, args.g, args.b)
+        print(f"C: {c}%, M: {m}%, Y: {y}%, K: {k}%")
     elif args.command == "guess-mime":
         print(guess_mime_type(args.path))
     elif args.command == "b58-encode":
