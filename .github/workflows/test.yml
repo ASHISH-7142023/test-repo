@@ -42,3 +42,7 @@ jobs:
           python cli.py b58-encode "Hello World!"
           python cli.py soundex "Robert"
           python cli.py soundex-match "Robert" "Rupert"
+          python cli.py morse-encode "SOS"
+          python cli.py to-roman 2026
+          python cli.py convert-units 1 km m
+          python cli.py rgb-to-cmyk 255 0 0
