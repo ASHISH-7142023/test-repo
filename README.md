@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-230%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-280%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 75+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, and data structures.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 95+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, Fenwick trees, segment trees, A*, Huffman coding, and data structures.
 
 ---
 
@@ -13,6 +13,26 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 
 | Module | Purpose | Key Functions / Classes |
 |---|---|---|
+| **`bloom_filter_counting.py`** | Counting Bloom Filter | `CountingBloomFilter` (`add`, `remove`, `contains`, `count`) |
+| **`suffix_array.py`** | Suffix Array & substring search | `build_suffix_array`, `suffix_array_search`, `longest_repeated_substring` |
+| **`tarjan_scc.py`** | Strongly connected components | `TarjanSCC` (`add_edge`, `find_sccs`) |
+| **`astar_search.py`** | 2D Grid A* pathfinding | `astar_grid`, `manhattan_distance`, `euclidean_distance` |
+| **`fenwick_tree.py`** | Binary Indexed Tree (BIT) | `FenwickTree` (`update`, `prefix_sum`, `range_sum`) |
+| **`segment_tree.py`** | Segment tree range queries | `SegmentTree` (`query`, `update`) |
+| **`radix_sort.py`** | Linear time integer sort | `radix_sort_integers`, `counting_sort` |
+| **`topological_kahns.py`** | Kahn DAG topological sort | `kahns_topological_sort` |
+| **`rabin_karp.py`** | Rolling hash substring search | `rabin_karp_search`, `rabin_karp_contains` |
+| **`huffman_coding.py`** | Huffman compression & prefix codes | `huffman_encode`, `huffman_decode`, `build_huffman_tree` |
+| **`morse_code.py`** | International Morse code | `text_to_morse`, `morse_to_text` |
+| **`roman_numerals.py`** | Roman numeral converter | `to_roman`, `from_roman` |
+| **`natural_sort.py`** | Human alphanumeric natural sort | `natural_sort`, `natural_sort_key` |
+| **`crc32_utils.py`** | IEEE 802.3 CRC32 checksum | `crc32_compute`, `crc32_hex` |
+| **`color_cmyk.py`** | CMYK color space conversions | `rgb_to_cmyk`, `cmyk_to_rgb` |
+| **`geo_geohash.py`** | Geohash coordinate encoder | `encode_geohash`, `decode_geohash` |
+| **`units_converter.py`** | Metric & imperial unit conversions | `convert_length`, `convert_weight`, `convert_temperature`, `convert_bytes` |
+| **`diffie_hellman.py`** | Key exchange simulation | `DiffieHellmanParty` (`get_public_key`, `compute_shared_secret`) |
+| **`semver_range.py`** | SemVer range expression matcher | `satisfies_range` (`^`, `~`, `>=`, `<=`) |
+| **`expression_evaluator.py`**| Shunting-Yard RPN math evaluator | `evaluate_expression`, `shunting_yard`, `evaluate_rpn` |
 | **`ring_buffer.py`** | Circular ring buffer | `CircularBuffer` (`append`, `popleft`, `peek`, `overwrite`) |
 | **`skip_list.py`** | Probabilistic indexing O(log n) | `SkipList` (`insert`, `contains`, `remove`, `to_list`) |
 | **`interval_tree.py`** | 1D range queries & overlap | `IntervalTree` (`insert`, `find_overlapping`, `find_at_point`) |
@@ -98,38 +118,25 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 ## 🚀 Quick Start
 
 ```python
-from src.ring_buffer import CircularBuffer
-from src.base58_utils import b58encode, b58decode
-from src.color_hsl import rgb_to_hsl, hsl_to_hex
-from src.dijkstra import WeightedGraph
-from src.phonetic_utils import soundex
+from src.expression_evaluator import evaluate_expression
+from src.morse_code import text_to_morse, morse_to_text
+from src.roman_numerals import to_roman, from_roman
+from src.units_converter import convert_length
 
-# 1. Circular Ring Buffer
-cb = CircularBuffer[int](capacity=3, overwrite=True)
-cb.append(10)
-cb.append(20)
-cb.append(30)
-cb.append(40) # Overwrites 10
-print(cb.to_list()) # [20, 30, 40]
+# 1. Mathematical Expression Evaluation
+print(evaluate_expression("3 + 4 * 2 ^ (1 + 1)")) # 19.0
 
-# 2. Base58 Encoding
-encoded = b58encode(b"Hello World!")
-print(encoded) # 2NEpo7TZRRrLZSi2U
+# 2. International Morse Code
+morse = text_to_morse("HELLO WORLD")
+print(morse) # .... . .-.. .-.. --- / .-- --- .-. .-.. -..
+print(morse_to_text(morse)) # HELLO WORLD
 
-# 3. Color Space Conversions
-h, s, l = rgb_to_hsl(255, 128, 0)
-print(f"HSL: {h} deg, {s}%, {l}% -> Hex: {hsl_to_hex(h, s, l)}")
+# 3. Roman Numerals
+print(to_roman(2026)) # MMXXVI
+print(from_roman("MMXXVI")) # 2026
 
-# 4. Dijkstra Shortest Path
-g = WeightedGraph()
-g.add_edge("Home", "Transit", 3.0)
-g.add_edge("Transit", "Office", 5.0)
-g.add_edge("Home", "Office", 10.0)
-path, cost = g.shortest_path("Home", "Office")
-print(f"Optimal Route: {' -> '.join(path)} (Distance: {cost})")
-
-# 5. Phonetic Soundex
-print(soundex("Robert"), soundex("Rupert")) # ('R163', 'R163')
+# 4. Units Converter
+print(convert_length(5, "mi", "km")) # ~8.046 km
 ```
 
 ---
@@ -137,25 +144,25 @@ print(soundex("Robert"), soundex("Rupert")) # ('R163', 'R163')
 ## 🛠️ CLI Usage
 
 ```bash
-# Detect MIME type
-python cli.py guess-mime style.css
+# Morse Code encoding and decoding
+python cli.py morse-encode "HELLO WORLD"
+python cli.py morse-decode ".... . .-.. .-.. --- / .-- --- .-. .-.. -.."
+
+# Roman Numeral conversion
+python cli.py to-roman 2026
+python cli.py from-roman MMXXVI
+
+# Unit conversions
+python cli.py convert-units 10 km mi
+
+# CMYK color conversion
+python cli.py rgb-to-cmyk 255 128 0
 
 # Base58 encode / decode
 python cli.py b58-encode "Hello World!"
-python cli.py b58-decode "2NEpo7TZRRrLZSi2U"
 
 # Soundex phonetics
 python cli.py soundex "Robert"
-python cli.py soundex-match "Robert" "Rupert"
-
-# Contrast inspection
-python cli.py contrast "#ffffff" "#000000"
-
-# Luhn credit card validation
-python cli.py luhn-check 49927398716
-
-# SemVer bumping
-python cli.py semver-bump 1.2.3 --type minor
 ```
 
 ---
@@ -168,7 +175,7 @@ Execute the comprehensive test suite with zero external dependencies:
 python -m unittest discover tests -v
 ```
 
-All 230+ unit tests execute in under 5 seconds!
+All 280+ unit tests execute in under 7 seconds!
 
 ---
 
