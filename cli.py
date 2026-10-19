@@ -26,6 +26,10 @@ from src.phonetic_utils import soundex, soundex_matches
 from src.morse_code import text_to_morse, morse_to_text
 from src.roman_numerals import to_roman, from_roman
 from src.units_converter import convert_length, convert_weight, convert_temperature, convert_bytes
+from src.base62_utils import base62_encode_int, base62_decode_int
+from src.totp_utils import totp, verify_totp
+from src.cron_parser import explain_cron
+from src.isbn_utils import validate_isbn10, validate_isbn13, isbn10_to_isbn13
 from src.color_cmyk import rgb_to_cmyk
 
 
@@ -161,6 +165,30 @@ def main():
     p_pass = subparsers.add_parser("validate-password", help="Audit password strength")
     p_pass.add_argument("password", help="Password string")
 
+
+    # Base62 commands
+    b62_enc_p = subparsers.add_parser("b62-encode", help="Encode integer to Base62")
+    b62_enc_p.add_argument("num", type=int, help="Non-negative integer")
+
+    b62_dec_p = subparsers.add_parser("b62-decode", help="Decode Base62 string to integer")
+    b62_dec_p.add_argument("code", help="Base62 string")
+
+    # TOTP commands
+    totp_gen_p = subparsers.add_parser("totp-generate", help="Generate TOTP code from secret")
+    totp_gen_p.add_argument("secret", help="Base32 or string secret")
+
+    totp_ver_p = subparsers.add_parser("totp-verify", help="Verify TOTP code against secret")
+    totp_ver_p.add_argument("secret", help="Base32 or string secret")
+    totp_ver_p.add_argument("token", help="6-digit token")
+
+    # Cron explain
+    cron_exp_p = subparsers.add_parser("cron-explain", help="Explain 5-field cron expression")
+    cron_exp_p.add_argument("expression", help="Cron string, e.g. '*/5 * * * *'")
+
+    # ISBN validate
+    isbn_p = subparsers.add_parser("isbn-validate", help="Validate ISBN-10 or ISBN-13")
+    isbn_p.add_argument("isbn", help="ISBN string")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -256,6 +284,30 @@ def main():
             for issue in issues:
                 print(f" - {issue}")
         sys.exit(0 if valid else 1)
+
+    elif args.command == "b62-encode":
+        print(base62_encode_int(args.num))
+    elif args.command == "b62-decode":
+        print(base62_decode_int(args.code))
+    elif args.command == "totp-generate":
+        print(totp(args.secret))
+    elif args.command == "totp-verify":
+        valid = verify_totp(args.token, args.secret)
+        print("Valid" if valid else "Invalid")
+        sys.exit(0 if valid else 1)
+    elif args.command == "cron-explain":
+        print(explain_cron(args.expression))
+    elif args.command == "isbn-validate":
+        v10 = validate_isbn10(args.isbn)
+        v13 = validate_isbn13(args.isbn)
+        if v10:
+            print(f"Valid ISBN-10 (ISBN-13: {isbn10_to_isbn13(args.isbn)})")
+        elif v13:
+            print("Valid ISBN-13")
+        else:
+            print("Invalid ISBN")
+            sys.exit(1)
+
 
 
 if __name__ == "__main__":
