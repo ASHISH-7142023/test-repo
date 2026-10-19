@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-280%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-330%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 95+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, Fenwick trees, segment trees, A*, Huffman coding, and data structures.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 110+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, Fenwick trees, segment trees, A*, Huffman coding, and data structures.
 
 ---
 
@@ -13,6 +13,20 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 
 | Module | Purpose | Key Functions / Classes |
 |---|---|---|
+| **`bloom_filter_scalable.py`** | Scalable Bloom Filter | `ScalableBloomFilter` (`add`, `contains`, `num_filters`) |
+| **`lfu_cache.py`** | O(1) Least Frequently Used cache | `LFUCache` (`get`, `put`, `delete`, `clear`) |
+| **`treap.py`** | Cartesian tree / BST + heap | `Treap` (`insert`, `search`, `remove`, `kth_smallest`) |
+| **`levenshtein_automaton.py`** | Automaton fuzzy dictionary search | `LevenshteinAutomaton`, `fuzzy_search` |
+| **`kd_tree.py`** | k-d spatial tree & range box | `KDTree` (`nearest_neighbor`, `range_query`) |
+| **`bellman_ford.py`** | Arbitrary weight shortest path | `bellman_ford`, `shortest_path_bf` |
+| **`bipartite_matching.py`** | Hopcroft-Karp maximum matching | `hopcroft_karp` |
+| **`min_spanning_tree.py`** | Kruskal & Prim MST algorithms | `kruskal_mst`, `prim_mst` |
+| **`base62_utils.py`** | Base62 alphanumeric compacting | `base62_encode_int`, `base62_decode_int` |
+| **`hilbert_curve.py`** | 2D Hilbert space-filling curve | `point_to_hilbert`, `hilbert_to_point` |
+| **`totp_utils.py`** | RFC 6238 TOTP & RFC 4226 HOTP | `totp`, `verify_totp`, `hotp` |
+| **`cron_parser.py`** | Cron parser & natural explainer | `explain_cron`, `matches_cron`, `parse_cron` |
+| **`json_pointer.py`** | RFC 6901 JSON pointer mutator | `resolve_json_pointer`, `set_json_pointer` |
+| **`isbn_utils.py`** | ISBN-10/13 validator & convert | `validate_isbn10`, `validate_isbn13`, `isbn10_to_isbn13` |
 | **`bloom_filter_counting.py`** | Counting Bloom Filter | `CountingBloomFilter` (`add`, `remove`, `contains`, `count`) |
 | **`suffix_array.py`** | Suffix Array & substring search | `build_suffix_array`, `suffix_array_search`, `longest_repeated_substring` |
 | **`tarjan_scc.py`** | Strongly connected components | `TarjanSCC` (`add_edge`, `find_sccs`) |
