@@ -1,3 +1,6 @@
+from src.rle_compression import rle_encode, rle_decode
+from src.geo_distance import initial_bearing
+from src.color_palette import hex_to_rgb, generate_triadic_palette, rgb_to_hex
 #!/usr/bin/env python3
 """Unified command-line interface for DevToolkit."""
 
@@ -189,6 +192,25 @@ def main():
     isbn_p = subparsers.add_parser("isbn-validate", help="Validate ISBN-10 or ISBN-13")
     isbn_p.add_argument("isbn", help="ISBN string")
 
+
+    # RLE commands
+    rle_enc_p = subparsers.add_parser("rle-encode", help="Encode text using RLE")
+    rle_enc_p.add_argument("text", help="Text to compress")
+
+    rle_dec_p = subparsers.add_parser("rle-decode", help="Decode RLE text")
+    rle_dec_p.add_argument("encoded", help="RLE compressed string")
+
+    # Geo bearing command
+    geo_bear_p = subparsers.add_parser("geo-bearing", help="Calculate initial compass bearing")
+    geo_bear_p.add_argument("lat1", type=float)
+    geo_bear_p.add_argument("lon1", type=float)
+    geo_bear_p.add_argument("lat2", type=float)
+    geo_bear_p.add_argument("lon2", type=float)
+
+    # Color palette
+    pal_p = subparsers.add_parser("color-palette", help="Generate triadic color palette from hex")
+    pal_p.add_argument("hex_color", help="Hex color e.g. #ff8800")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -307,6 +329,18 @@ def main():
         else:
             print("Invalid ISBN")
             sys.exit(1)
+
+    elif args.command == "rle-encode":
+        print(rle_encode(args.text))
+    elif args.command == "rle-decode":
+        print(rle_decode(args.encoded))
+    elif args.command == "geo-bearing":
+        print(f"{initial_bearing(args.lat1, args.lon1, args.lat2, args.lon2):.2f}°")
+    elif args.command == "color-palette":
+        r, g, b = hex_to_rgb(args.hex_color)
+        tri = generate_triadic_palette(r, g, b)
+        print(" ".join(rgb_to_hex(*c) for c in tri))
+
 
 
 
