@@ -2,10 +2,10 @@
 
 [![DevToolkit CI](https://github.com/ASHISH-7142023/test-repo/actions/workflows/test.yml/badge.svg)](https://github.com/ASHISH-7142023/test-repo/actions)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Tests](https://img.shields.io/badge/tests-330%2B%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-370%2B%20passed-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 110+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, Fenwick trees, segment trees, A*, Huffman coding, and data structures.
+A lightweight, zero-dependency developer utility toolkit for daily software engineering tasks. Includes 125+ robust, battle-tested modules for text processing, date calculations, file operations, caching, rate limiting, cryptographic tokens, encoding, collections, system metrics, security hashing, networking, event buses, resilience, pagination, semver, algorithms, graph theory, tries, geometric vectors, Fenwick trees, segment trees, A*, Huffman coding, and data structures.
 
 ---
 
@@ -13,6 +13,19 @@ A lightweight, zero-dependency developer utility toolkit for daily software engi
 
 | Module | Purpose | Key Functions / Classes |
 |---|---|---|
+| **`bit_field.py`** | Arbitrary bitfield pack/unpack | `BitField` (`pack`, `unpack`, `pack_bytes`) |
+| **`rle_compression.py`** | Run-length encoding strings & bytes | `rle_encode`, `rle_decode` |
+| **`color_palette.py`** | Harmony color palette generator | `generate_complementary_palette`, `generate_triadic_palette` |
+| **`geo_distance.py`** | Great-circle bearing & destination | `initial_bearing`, `destination_point`, `haversine_distance_km` |
+| **`matrix_sparse.py`** | DOK compressed sparse matrix | `SparseMatrix` (`add`, `scalar_mul`, `density`) |
+| **`timsort_runs.py`** | Natural run detection & merges | `find_natural_runs`, `reverse_run_slice` |
+| **`reservoir_sampling.py`** | Streaming reservoir sampling (Alg R) | `reservoir_sample` |
+| **`hungarian_algorithm.py`**| Kuhn-Munkres optimal assignment | `hungarian_min_assignment` |
+| **`consistent_hash_ring.py`**| Virtual node consistent hashing | `ConsistentHashRing` (`add_node`, `get_node`) |
+| **`murmurhash3.py`** | 32-bit MurmurHash3 function | `murmurhash3_32` |
+| **`text_diff_patch.py`** | Unified diff generator and patcher | `create_unified_diff`, `apply_patch` |
+| **`trie_radix.py`** | Radix / Patricia compressed prefix tree| `RadixTree` (`insert`, `search`) |
+| **`money_calc.py`** | Fixed-point financial arithmetic & split | `Money` (`from_float`, `split`) |
 | **`bloom_filter_scalable.py`** | Scalable Bloom Filter | `ScalableBloomFilter` (`add`, `contains`, `num_filters`) |
 | **`lfu_cache.py`** | O(1) Least Frequently Used cache | `LFUCache` (`get`, `put`, `delete`, `clear`) |
 | **`treap.py`** | Cartesian tree / BST + heap | `Treap` (`insert`, `search`, `remove`, `kth_smallest`) |
